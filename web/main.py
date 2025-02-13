@@ -25,7 +25,7 @@ def index():
     ).scalars()
 
     return flask.render_template(
-        "login.html",
+        "index.html",
         notes=notes,
     )
 
