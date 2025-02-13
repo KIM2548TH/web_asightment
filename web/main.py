@@ -80,7 +80,7 @@ def register():
     user.password_hash = form.password.data
     models.db.session.add(user)
     models.db.session.commit()
-    return flask.redirect(flask.url_for("index"))
+    return flask.redirect(flask.url_for("login"))
 
 
 @app.route("/page")
