@@ -1,9 +1,14 @@
 import flask
 import models
 import forms
-import acl
+import acl as acl
+
+from flask import (
+    Blueprint,
+)
 
 from flask_login import login_required, login_user, logout_user
+module = Blueprint("templates", __name__)
 
 app = flask.Flask(__name__)
 app.config["SECRET_KEY"] = "This is secret key"
@@ -20,7 +25,7 @@ def index():
     ).scalars()
 
     return flask.render_template(
-        "index.html",
+        "login.html",
         notes=notes,
     )
 
