@@ -1,0 +1,107 @@
+/* body background color */
+body {
+    background-color: #181818; /* Dark background */
+    color: white; /* Light text color */
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #333333; /* Dark navbar like YouTube */
+}
+
+.navbar a {
+    color: #ffffff;
+}
+
+.navbar a:hover {
+    color: #ff0000; /* YouTube red hover effect */
+}
+
+/* Sidebar styles */
+.offcanvas {
+    background-color: #333333; /* Sidebar color */
+}
+
+.offcanvas-body {
+    background-color: #181818; /* Dark background in sidebar */
+}
+
+.list-group-item {
+    background-color: #333333; /* Dark background for list items */
+    color: #ffffff;
+}
+
+.list-group-item a {
+    color: #ffffff;
+}
+
+.list-group-item a:hover {
+    color: #ff0000; /* Red color for hover */
+}
+
+/* Main content styles */
+.container {
+    background-color: #202020; /* Dark background for main content */
+    border-radius: 10px;
+    color: white; /* Text color */
+    padding: 20px;
+}
+
+/* Form styles */
+.card {
+    background-color: #333333; /* Card background */
+    color: white; /* Text color */
+    border-radius: 10px;
+}
+
+.card h3 {
+    color: white; /* Heading color */
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    background-color: #555555; /* Input background */
+    color: white; /* Input text color */
+    border: 1px solid #888888; /* Border color */
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    background-color: #444444; /* Focus input background */
+    border-color: #ff0000; /* Border color on focus */
+}
+
+.btn-outline-primary {
+    border-color: #ff0000;
+    color: #ff0000;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff0000;
+    color: white;
+}
+
+.btn-warning {
+    border-color: #ff9800;
+    color: #ff9800;
+}
+
+.btn-warning:hover {
+    background-color: #ff9800;
+    color: white;
+}
+
+.text-danger {
+    color: #ff0000; /* Error text color */
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
