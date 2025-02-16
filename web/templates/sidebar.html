@@ -1,19 +1,26 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            ☰ Menu
+        </button>
+        <a class="navbar-brand mx-auto" href="{{ url_for('index') }}">
+            {{ self.title() }}
+        </a>
+        <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Login</a>
+    </div>
+</nav>
 
-        <div class="nav nav-pills flex-column mb-auto" >
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
+<!-- Sidebar -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="#">Home</a></li>
+            <li class="list-group-item"><a href="#">About</a></li>
+            <li class="list-group-item"><a href="#">Contact</a></li>
+        </ul>
+    </div>
 </div>
