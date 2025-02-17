@@ -105,3 +105,31 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* Header styles */
+header {
+    background-color: #333333; /* Same as navbar */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+header a:hover {
+    color: #ff0000; /* YouTube red hover effect */
+}
+
+/* Adjust spacing in header */
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

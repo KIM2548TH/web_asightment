@@ -14,22 +14,27 @@
     </script>
 </head>
 <body>
-    <title>
-        {% block title %} Hello PSU Note{% endblock %}
-    </title>
-    <nav class="navbar navbar-dark">
-        <div class="container-fluid">
-            <a class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-                ☰ 
-            </a>
-            <a class="navbar-brand mx-auto" href="{{ url_for('index') }}">
-                {{ self.title() }}
-            </a>
-            <a class="btn" href="{{ url_for('login') }}">
-                Login
-            </a>
+    <header class="py-3 mb-3 border-bottom">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 0fr;">
+            <div class="d-flex align-items-center">
+                <a class="nav-link px-2 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    ☰ 
+                </a>
+                <a> </a> 
+                <a class="nav-link px-2 text-white" href="{{ url_for('index') }}" >
+                     Hello PSU Note
+                </a>
+            </div>
+            <div class="d-flex align-items-center">
+                <a class="nav-link px-2 text-white" href="{{ url_for('register') }}">
+                    Register
+                </a>
+                <a class="nav-link px-2 text-white" href="{{ url_for('login') }}">
+                    Login
+                </a>
+            </div>
         </div>
-    </nav>
+    </header>
 
     <!-- Sidebar -->
     <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
