@@ -1,7 +1,83 @@
 {% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous">
+    <!-- Link to custom theme CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <header class="py-3 mb-3 border-bottom">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 0fr;">
+            <div class="d-flex align-items-center">
+                <a class="nav-link px-2 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    ☰ 
+                </a>
+                <a> </a> 
+                <a class="nav-link px-2 text-white" href="{{ url_for('index') }}" >
+                     Hello PSU Note
+                </a>
+            </div>
+            <div class="d-flex align-items-center">
+                <a class="nav-link px-2 text-white" href="{{ url_for('register') }}">
+                    Register
+                </a>
+                <a class="nav-link px-2 text-white" href="{{ url_for('login') }}">
+                    Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#">Home</a></li>
+                <li class="list-group-item"><a href="#">About</a></li>
+                <li class="list-group-item"><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+
 
 {% block body %}
 
-wellcome to my websiteegtwi0hhhhhhhhhhhhhhhh
+<div class="center-screen section-bg p-6 rounded mt-0" style="margin-top: 0; padding-top: 0;">
+    <h1 class="text-4xl font-bold text-gray-900 mb-2">
+        Thailand Cost of Living Comparison
+    </h1>
+</div>
+
+<div class="center-screen section-bg p-6 rounded" style="margin-top: -16px; padding-top: 0;">
+    <p class="text-lg text-gray-700">
+        Compare living expenses between different provinces in Thailand
+    </p>
+</div>
+
+<div class="container mt-2 p-4 rounded">
+    กดหกดหกดห
+</div>
+
+<div class="container mt-2 p-4 rounded full-height">
+    wellcome to my websiteegtwi0hhhhhhhhhhhhhhhhห
+</div>
 
 {% endblock %}
+
+
+</body>
+</html>

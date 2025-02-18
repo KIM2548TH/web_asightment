@@ -139,3 +139,20 @@ header a:hover {
     align-items: center;
     gap: 10px;
 }
+
+.full-height {
+    min-height: 100vh; /* ทำให้สูงเต็มจอ */
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;  /* จัดกลางแนวนอน */
+    text-align: center;
+}
+
+.section-bg {
+    background-color: #e2e8f0; /* เทาอ่อนอมฟ้า */
+    padding: 0.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
