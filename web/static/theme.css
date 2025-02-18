@@ -1,158 +1,52 @@
-/* body background color */
 body {
-    background-color: #f0f4f8; /* Light blue-gray background */
-    color: #2d3748; /* Dark gray text color */
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    color: #2d3748;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Navbar styles */
-.navbar {
-    background-color: #2c5282; /* Dark blue navbar */
-}
-
-.navbar a {
-    color: #ffffff; /* White text in navbar */
-}
-
-.navbar a:hover {
-    color: #a0c4ff; /* Light blue hover effect */
-}
-
-/* Sidebar styles */
-.offcanvas {
-    background-color: #2c5282; /* Dark blue sidebar */
-}
-
-.offcanvas-body {
-    background-color: #f0f4f8; /* Light blue-gray background in sidebar */
-}
-
-.list-group-item {
-    background-color: #2c5282; /* Dark blue background for list items */
-    color: #ffffff; /* White text */
-}
-
-.list-group-item a {
-    color: #ffffff; /* White text for links */
-}
-
-.list-group-item a:hover {
-    color: #a0c4ff; /* Light blue hover effect */
-}
-
-/* Main content styles */
 .container {
-    background-color: #ffffff; /* White background for main content */
+    background-color: #ffffff;
+    padding: 2rem;
     border-radius: 10px;
-    color: #2d3748; /* Dark gray text color */
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
 }
 
-/* Form styles */
-.card {
-    background-color: #ffffff; /* White card background */
-    color: #2d3748; /* Dark gray text color */
-    border-radius: 10px;
-    border: 1px solid #e2e8f0; /* Light border */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.card h3 {
-    color: #2c5282; /* Dark blue heading color */
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-control {
-    background-color: #ffffff; /* White input background */
-    color: #2d3748; /* Dark gray input text color */
-    border: 1px solid #e2e8f0; /* Light border */
-    border-radius: 5px;
-}
-
-.form-control:focus {
-    background-color: #ffffff; /* White focus input background */
-    border-color: #2c5282; /* Dark blue border color on focus */
-    box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1); /* Focus shadow */
-}
-
-.btn-outline-primary {
-    border-color: #2c5282;
+h1 {
+    text-align: center;
     color: #2c5282;
+    margin-bottom: 1.5rem;
 }
 
-.btn-outline-primary:hover {
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
     background-color: #2c5282;
-    color: white;
+    color: #ffffff;
+    font-weight: bold;
 }
 
-.btn-warning {
-    border-color: #ed8936;
-    color: #ed8936;
+td.difference {
+    color: #e53e3e;
+    font-weight: bold;
 }
 
-.btn-warning:hover {
-    background-color: #ed8936;
-    color: white;
-}
-
-.text-danger {
-    color: #e53e3e; /* Red error text color */
-}
-
-a {
-    text-decoration: none;
-    color: #2c5282; /* Dark blue link color */
-}
-
-a:hover {
-    text-decoration: underline;
-    color: #1a365d; /* Darker blue on hover */
-}
-
-/* Header styles */
-header {
-    background-color: #2c5282; /* Dark blue header */
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-header a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-}
-
-header a:hover {
-    color: #a0c4ff; /* Light blue hover effect */
-}
-
-/* Adjust spacing in header */
-.header-left, .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.full-height {
-    min-height: 100vh; /* ทำให้สูงเต็มจอ */
-}
-
-.center-screen {
-    display: flex;
-    justify-content: center;  /* จัดกลางแนวนอน */
-    text-align: center;
-}
-
-.section-bg {
-    background-color: #e2e8f0; /* เทาอ่อนอมฟ้า */
-    padding: 0.5rem;
-    border-radius: 10px;
-    text-align: center;
+tr:hover {
+    background-color: #f7fafc;
 }
