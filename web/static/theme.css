@@ -68,3 +68,8 @@ tr:hover {
 .list-group-item:hover {
     background: #e9ecef; /* สีเทาเข้มขึ้นเมื่อ Hover */
 }
+
+.cost-image {
+    max-width: 90%;
+    height: auto;
+}
