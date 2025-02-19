@@ -56,3 +56,15 @@ tr:hover {
     padding: 4px 8px;
     border-radius: 8px;
 }
+
+.offcanvas-body {
+    background-color: #f8f9fa; /* สีเทาอ่อน */
+    padding: 20px;
+}
+.list-group-item {
+    background: white; 
+    transition: background 0.3s ease-in-out;
+}
+.list-group-item:hover {
+    background: #e9ecef; /* สีเทาเข้มขึ้นเมื่อ Hover */
+}
