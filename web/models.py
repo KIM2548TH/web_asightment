@@ -36,31 +36,6 @@ def init_app(app):
 def has_role(self, role_name):
     return any(role.name == role_name for role in self.roles)
 
-##right here
-note_tag_m2m = db.Table(
-                    "note_tag",
-                    sa.Column("note_id", sa.ForeignKey("notes.id"), primary_key=True),
-                    sa.Column("tag_id", sa.ForeignKey("tags.id"), primary_key=True),
-                )
-
-
-class Tag(db.Model):
-    __tablename__ = "tags"
-    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(sa.String, nullable=False)
-    created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
-
-
-class Note(db.Model):
-    __tablename__ = "notes"
-
-    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
-
-    title: Mapped[str] = mapped_column(sa.String, nullable=False)
-    description: Mapped[str] = mapped_column(sa.Text)
-    tags: Mapped[list[Tag]] = relationship(secondary=note_tag_m2m)
-    created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
-    updated_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
 
 ##right here
 user_roles = db.Table(
@@ -107,14 +82,11 @@ class User(db.Model, UserMixin):
 
 
     serialize_rules = ("-_password_hash",)
-
 class Province(db.Model):
     __tablename__ = "provinces"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), primary_key=True, unique=True, nullable=False)
     region = db.Column(db.String(50), nullable=False)
-    image_url = db.Column(db.String(255), nullable=True)
     image_data = db.Column(db.LargeBinary, nullable=True)  # เพิ่มฟิลด์สำหรับเก็บข้อมูลไฟล์
 
     # ความสัมพันธ์
@@ -126,7 +98,7 @@ class Cost_of_Living(db.Model):
     __tablename__ = "cost_of_livings"
 
     id = db.Column(db.Integer, primary_key=True)
-    province_id = db.Column(db.Integer, db.ForeignKey("provinces.id"), nullable=False)
+    province_name = db.Column(db.String(100), db.ForeignKey("provinces.name"), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     food = db.Column(db.Integer, nullable=False)
     housing = db.Column(db.Integer, nullable=False)

@@ -1,5 +1,5 @@
 import flask
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 import models 
 import forms
 import acl
@@ -16,6 +16,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 login_manager = LoginManager()
 login_manager.init_app(app)  # ตั้งค่า LoginManager
 login_manager.login_view = "login"  # ตั้งค่าหน้าเว็บที่ต้องการให้ผู้ใช้ไปเมื่อยังไม่ได้ล็อกอิน
+acl.init_acl(app)  # ใช้ฟังก์ชัน init_acl จาก acl.py
 models.init_app(app)
 
 # ตั้งค่าฟังก์ชันสำหรับโหลดผู้ใช้
@@ -26,8 +27,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    notes = models.Note.query.order_by(models.Note.title).all()
-    return render_template("index.html", notes=notes)
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -36,7 +36,8 @@ def login():
         user = models.User.query.filter_by(username=form.username.data).first()  # ค้นหาผู้ใช้
         if user and user.authenticate(form.password.data):  # ตรวจสอบรหัสผ่าน
             login_user(user)  # ล็อกอินผู้ใช้
-            return redirect(url_for("index"))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for("index"))
         flash("Invalid username or password", "danger")
     return render_template("login.html", form=form)  # แสดงฟอร์ม
 
