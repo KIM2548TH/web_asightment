@@ -11,7 +11,6 @@ from flask_login import UserMixin
 from acl import init_acl
 import sqlalchemy as sa
 
-
 class Base(DeclarativeBase):
     pass
 
@@ -108,3 +107,32 @@ class User(db.Model, UserMixin):
 
 
     serialize_rules = ("-_password_hash",)
+
+class Province(db.Model):
+    __tablename__ = "provinces"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    region = db.Column(db.String(50), nullable=False)
+    image_url = db.Column(db.String(255), nullable=True)
+    image_data = db.Column(db.LargeBinary, nullable=True)  # เพิ่มฟิลด์สำหรับเก็บข้อมูลไฟล์
+
+    # ความสัมพันธ์
+    cost_of_living = relationship("Cost_of_Living", back_populates="province")
+
+    created_date = mapped_column(sa.DateTime(timezone=True), server_default=func.now())
+    
+class Cost_of_Living(db.Model):
+    __tablename__ = "cost_of_livings"
+
+    id = db.Column(db.Integer, primary_key=True)
+    province_id = db.Column(db.Integer, db.ForeignKey("provinces.id"), nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    food = db.Column(db.Integer, nullable=False)
+    housing = db.Column(db.Integer, nullable=False)
+    energy = db.Column(db.Integer, nullable=False)
+
+    # ความสัมพันธ์
+    province = relationship("Province", back_populates="cost_of_living")
+
+    created_date = db.Column(db.DateTime(timezone=True), server_default=func.now())
