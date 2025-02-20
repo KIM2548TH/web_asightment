@@ -31,13 +31,19 @@ class RegisterForm(BaseUserForm):
 
 class Province_Form(FlaskForm):
     name = fields.StringField("Province Name", [validators.DataRequired()])
-    region = fields.StringField("Region", [validators.DataRequired()])
-    image_file = fields.FileField("image_file", validators=[
-        FileAllowed(['jpg', 'png', 'jpeg'], 'Only image files are allowed')])
+    region = fields.SelectField("Region", choices=[
+        ('เหนือ', 'เหนือ'),
+        ('กลาง', 'กลาง'),
+        ('อีสาน', 'อีสาน'),
+        ('ใต้', 'ใต้')
+    ], validators=[validators.DataRequired()])
+    image_file = fields.FileField("Image File", validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'], 'Only image files are allowed')
+    ])
 
 class Cost_of_Living_Form(FlaskForm):
     province_name = fields.SelectField("Province", coerce=str, validators=[validators.DataRequired()])
-    year = fields.IntegerField("Year", [validators.DataRequired()])
+    year = fields.SelectField("Year", coerce=int, validators=[validators.DataRequired()])
     food = fields.FloatField("Food Cost", [validators.DataRequired()])
     housing = fields.FloatField("Housing Cost", [validators.DataRequired()])
     energy = fields.FloatField("Energy Cost", [validators.DataRequired()])

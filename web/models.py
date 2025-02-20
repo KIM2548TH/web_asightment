@@ -87,7 +87,7 @@ class Province(db.Model):
 
     name = db.Column(db.String(100), primary_key=True, unique=True, nullable=False)
     region = db.Column(db.String(50), nullable=False)
-    image_data = db.Column(db.LargeBinary, nullable=True)  # เพิ่มฟิลด์สำหรับเก็บข้อมูลไฟล์
+    image_file = db.Column(db.LargeBinary, nullable=False)
 
     # ความสัมพันธ์
     cost_of_living = relationship("Cost_of_Living", back_populates="province")
@@ -103,6 +103,7 @@ class Cost_of_Living(db.Model):
     food = db.Column(db.Integer, nullable=False)
     housing = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.Integer, nullable=False)
+    total_cost = db.Column(db.Integer, nullable=False)
 
     # ความสัมพันธ์
     province = relationship("Province", back_populates="cost_of_living")

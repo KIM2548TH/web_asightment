@@ -107,6 +107,7 @@ def create_province():
 def create_cost_of_living():
     form = forms.Cost_of_Living_Form()
     form.province_name.choices = [(p.name, p.name) for p in models.Province.query.all()]
+    form.year.choices = [(year, year) for year in range(1990, 2026)]  # กำหนดตัวเลือกปีตั้งแต่ 2000 ถึง 2025
 
     if form.validate_on_submit():
         existing_cost = models.Cost_of_Living.query.filter_by(
