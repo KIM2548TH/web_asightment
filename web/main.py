@@ -4,7 +4,7 @@ import models
 import forms
 import acl
 from flask import Blueprint
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 
 module = Blueprint("templates", __name__)
 
@@ -15,6 +15,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 # สร้าง LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)  # ตั้งค่า LoginManager
+login_manager.login_view = "login"  # ตั้งค่าหน้าเว็บที่ต้องการให้ผู้ใช้ไปเมื่อยังไม่ได้ล็อกอิน
 models.init_app(app)
 
 # ตั้งค่าฟังก์ชันสำหรับโหลดผู้ใช้
@@ -101,8 +102,8 @@ def create_province():
     
     return render_template("create_province.html", form=form)
 
-@login_required
 @app.route("/create_cost_of_living", methods=["GET", "POST"])
+@login_required
 def create_cost_of_living():
     form = forms.Cost_of_Living_Form()
     form.province_name.choices = [(p.name, p.name) for p in models.Province.query.all()]
