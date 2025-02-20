@@ -84,14 +84,13 @@ def create_province():
         try:
             # อ่านข้อมูลไฟล์
             image_data = None
-            if form.image_url.data:
-                image_data = form.image_url.data.read()
+            if form.image_file.data:
+                image_data = form.image_file.data.read()
             
             province = models.Province(
                 name=form.name.data,
                 region=form.region.data,
-                image_url=form.image_url.data.filename,  # บันทึกชื่อไฟล์
-                image_data=image_data  # บันทึกข้อมูลไฟล์
+                image_file=image_data  # บันทึกข้อมูลไฟล์
             )
             models.db.session.add(province)
             models.db.session.commit()

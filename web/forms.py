@@ -32,7 +32,7 @@ class RegisterForm(BaseUserForm):
 class Province_Form(FlaskForm):
     name = fields.StringField("Province Name", [validators.DataRequired()])
     region = fields.StringField("Region", [validators.DataRequired()])
-    image_url = fields.FileField("Image URL", validators=[
+    image_file = fields.FileField("image_file", validators=[
         FileAllowed(['jpg', 'png', 'jpeg'], 'Only image files are allowed')])
 
 class Cost_of_Living_Form(FlaskForm):
