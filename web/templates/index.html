@@ -82,68 +82,86 @@
     <main class="container text-center mt-5">
         <h1 class="fw-bold">Thailand Cost of Living Comparison</h1>
         <p class="text-muted">Compare living expenses between different provinces in Thailand</p>
-    </head>
+    </main>
     <div class="container mt-4">
         <div class="row align-items-center">
             <div class="mt-4 mx-auto" style="max-width: 600px;">
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Food</h5>
-                        <small class="text-muted">Chiang Mai ฿10,000 | Bangkok ฿15,000</small>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.food }}</small>
                     </div>
-                    <span class="price-diff">+50.0%</span>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.food_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.food_diff) }}%
+                    </span>
                 </div>
     
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Housing</h5>
-                        <small class="text-muted">Chiang Mai ฿15,000 | Bangkok ฿25,000</small>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.housing }}</small>
                     </div>
-                    <span class="price-diff">+66.7%</span>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.housing_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.housing_diff) }}%
+                    </span>
                 </div>
     
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Energy</h5>
-                        <small class="text-muted">Chiang Mai ฿2,000 | Bangkok ฿3,000</small>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.energy }}</small>
                     </div>
-                    <span class="price-diff">+50.0%</span>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.energy_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.energy_diff) }}%
+                    </span>
                 </div>
     
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Transportation</h5>
-                        <small class="text-muted">Chiang Mai ฿2,500 | Bangkok ฿4,000</small>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.transportation }}</small>
                     </div>
-                    <span class="price-diff">+60.0%</span>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.transportation_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.transportation_diff) }}%
+                    </span>
                 </div>
     
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Entertainment</h5>
-                        <small class="text-muted">Chiang Mai ฿5,000 | Bangkok ฿8,000</small>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.entertainment }}</small>
                     </div>
-                    <span class="price-diff">+60.0%</span>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.entertainment_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.entertainment_diff) }}%
+                    </span>
+                </div>
+
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Total Cost</h5>
+                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.total_cost }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if cost_comparison.total_cost_diff < 0 else 'text-danger' }}">
+                        {{ "%.2f" | format(cost_comparison.total_cost_diff) }}%
+                    </span>
                 </div>
             </div>
 
-            <div class="col-md-4 d-flex " >
-                <img src="{{ url_for('static', filename='cost_living.png') }}" class="cost-image">
+            <div class="col-md-4 d-flex">
+                <img src="data:image/png;base64,{{ province.image_file | b64encode }}" class="cost-image">
             </div>
         </div>
     </div>
     
-            <footer class=" mt-4">
-                <p>Data last updated: March 15, 2024</p>
-                <p>Note: All costs are average monthly expenses in Thai Baht (฿)</p>
-            </footer>
-        </main>
-    
-
+    <footer class="mt-4">
+        <p>Data last updated: March 15, 2024</p>
+        <p>Note: All costs are average monthly expenses in Thai Baht (฿)</p>
+    </footer>
 </body>
 </html>

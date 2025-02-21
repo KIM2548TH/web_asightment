@@ -5,6 +5,7 @@ import forms
 import acl
 from flask import Blueprint
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+import base64
 
 module = Blueprint("templates", __name__)
 
@@ -12,22 +13,42 @@ app = flask.Flask(__name__)
 app.config["SECRET_KEY"] = "This is secret key"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
+def b64encode(data):
+    return base64.b64encode(data).decode('utf-8')
+
 # สร้าง LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)  # ตั้งค่า LoginManager
 login_manager.login_view = "login"  # ตั้งค่าหน้าเว็บที่ต้องการให้ผู้ใช้ไปเมื่อยังไม่ได้ล็อกอิน
 acl.init_acl(app)  # ใช้ฟังก์ชัน init_acl จาก acl.py
 models.init_app(app)
-
+app.jinja_env.filters['b64encode'] = b64encode
 # ตั้งค่าฟังก์ชันสำหรับโหลดผู้ใช้
 @login_manager.user_loader
 def load_user(user_id):
     return models.User.query.get(int(user_id))
 
-
 @app.route("/")
 def index():
-    return render_template("index.html")
+    latest_year = models.db.session.query(models.Cost_of_Living.year).order_by(models.Cost_of_Living.year.desc()).first()[0]
+    previous_year = latest_year - 1
+
+    latest_cost = models.Cost_of_Living.query.filter_by(province_name="Thailand", year=latest_year).first()
+    previous_cost = models.Cost_of_Living.query.filter_by(province_name="Thailand", year=previous_year).first()
+    province = models.Province.query.filter_by(name="Thailand").first()
+
+    cost_comparison = {
+        "latest": latest_cost,
+        "previous": previous_cost,
+        "food_diff": ((latest_cost.food - previous_cost.food) / previous_cost.food) * 100,
+        "housing_diff": ((latest_cost.housing - previous_cost.housing) / previous_cost.housing) * 100,
+        "energy_diff": ((latest_cost.energy - previous_cost.energy) / previous_cost.energy) * 100,
+        "transportation_diff": ((latest_cost.transportation - previous_cost.transportation) / previous_cost.transportation) * 100,
+        "entertainment_diff": ((latest_cost.entertainment - previous_cost.entertainment) / previous_cost.entertainment) * 100,
+        "total_cost_diff": ((latest_cost.total_cost - previous_cost.total_cost) / previous_cost.total_cost) * 100,
+    }
+
+    return render_template("index.html", cost_comparison=cost_comparison, province=province, latest_year=latest_year, previous_year=previous_year)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
