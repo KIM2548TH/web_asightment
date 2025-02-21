@@ -93,7 +93,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.food }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.food_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.food_diff) }}%
+                        {{ "+" if cost_comparison.food_diff > 0 else "" }}{{ (cost_comparison.food_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.food_diff / cost_comparison.latest.food * 100) > 0 else "" }}{{ ((cost_comparison.food_diff / cost_comparison.latest.food * 100)) | float | round(2) }}%)
                     </span>
                 </div>
     
@@ -104,7 +105,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.housing }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.housing_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.housing_diff) }}%
+                        {{ "+" if cost_comparison.housing_diff > 0 else "" }}{{ (cost_comparison.housing_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.housing_diff / cost_comparison.latest.housing * 100) > 0 else "" }}{{ ((cost_comparison.housing_diff / cost_comparison.latest.housing * 100)) | float | round(2) }}%)
                     </span>
                 </div>
     
@@ -115,7 +117,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.energy }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.energy_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.energy_diff) }}%
+                        {{ "+" if cost_comparison.energy_diff > 0 else "" }}{{ (cost_comparison.energy_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.energy_diff / cost_comparison.latest.energy * 100) > 0 else "" }}{{ ((cost_comparison.energy_diff / cost_comparison.latest.energy * 100)) | float | round(2) }}%)
                     </span>
                 </div>
     
@@ -126,7 +129,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.transportation }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.transportation_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.transportation_diff) }}%
+                        {{ "+" if cost_comparison.transportation_diff > 0 else "" }}{{ (cost_comparison.transportation_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100) > 0 else "" }}{{ ((cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100)) | float | round(2) }}%)
                     </span>
                 </div>
     
@@ -137,7 +141,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.entertainment }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.entertainment_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.entertainment_diff) }}%
+                        {{ "+" if cost_comparison.entertainment_diff > 0 else "" }}{{ (cost_comparison.entertainment_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100) > 0 else "" }}{{ ((cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100)) | float | round(2) }}%)
                     </span>
                 </div>
 
@@ -148,7 +153,8 @@
                         <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.total_cost }}</small>
                     </div>
                     <span class="price-diff {{ 'text-success' if cost_comparison.total_cost_diff < 0 else 'text-danger' }}">
-                        {{ "%.2f" | format(cost_comparison.total_cost_diff) }}%
+                        {{ "+" if cost_comparison.total_cost_diff > 0 else "" }}{{ (cost_comparison.total_cost_diff) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100) > 0 else "" }}{{ ((cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100)) | float | round(2) }}%)
                     </span>
                 </div>
             </div>
@@ -159,6 +165,7 @@
         </div>
     </div>
     
+
     <footer class="text-center py-3 mt-4">
         <p>&copy; 2025 Thailand Cost of Living. All rights reserved.</p>
     </footer>

@@ -30,8 +30,14 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    latest_year = models.db.session.query(models.Cost_of_Living.year).order_by(models.Cost_of_Living.year.desc()).first()[0]
-    previous_year = latest_year - 1
+    # ดึงค่าที่มีค่ามากที่สุดและค่าที่มีค่ามากที่สุดลำดับสอง
+    top_two_years = models.db.session.query(models.Cost_of_Living.year).order_by(models.Cost_of_Living.total_cost.desc()).limit(2).all()
+    if len(top_two_years) < 2:
+        flash("Not enough data to compare.", "danger")
+        return render_template("index.html", cost_comparison=None, province=None, latest_year=None, previous_year=None)
+
+    latest_year = top_two_years[0][0]
+    previous_year = top_two_years[1][0]
 
     latest_cost = models.Cost_of_Living.query.filter_by(province_name="Thailand", year=latest_year).first()
     previous_cost = models.Cost_of_Living.query.filter_by(province_name="Thailand", year=previous_year).first()
@@ -40,12 +46,12 @@ def index():
     cost_comparison = {
         "latest": latest_cost,
         "previous": previous_cost,
-        "food_diff": ((latest_cost.food - previous_cost.food) / previous_cost.food) * 100,
-        "housing_diff": ((latest_cost.housing - previous_cost.housing) / previous_cost.housing) * 100,
-        "energy_diff": ((latest_cost.energy - previous_cost.energy) / previous_cost.energy) * 100,
-        "transportation_diff": ((latest_cost.transportation - previous_cost.transportation) / previous_cost.transportation) * 100,
-        "entertainment_diff": ((latest_cost.entertainment - previous_cost.entertainment) / previous_cost.entertainment) * 100,
-        "total_cost_diff": ((latest_cost.total_cost - previous_cost.total_cost) / previous_cost.total_cost) * 100,
+        "food_diff": latest_cost.food - previous_cost.food,
+        "housing_diff": latest_cost.housing - previous_cost.housing,
+        "energy_diff": latest_cost.energy - previous_cost.energy,
+        "transportation_diff": latest_cost.transportation - previous_cost.transportation,
+        "entertainment_diff": latest_cost.entertainment - previous_cost.entertainment,
+        "total_cost_diff": latest_cost.total_cost - previous_cost.total_cost,
     }
 
     return render_template("index.html", cost_comparison=cost_comparison, province=province, latest_year=latest_year, previous_year=previous_year)
