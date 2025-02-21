@@ -141,5 +141,31 @@ def create_cost_of_living():
 
     return render_template("create_cost_of_living.html", form=form)
 
+@app.route("/compare_cost", methods=["GET", "POST"])
+@login_required
+def compare_cost():
+    provinces = models.Province.query.all()
+    years = range(2020, 2024)
+    cost1 = None
+    cost2 = None
+    province1 = None
+    province2 = None
+    year1 = None
+    year2 = None
+
+    if request.method == "POST":
+        province1_name = request.form.get("province1")
+        province2_name = request.form.get("province2")
+        year1 = request.form.get("year1")
+        year2 = request.form.get("year2")
+
+        if province1_name and province2_name and year1 and year2:
+            province1 = models.Province.query.filter_by(name=province1_name).first()
+            province2 = models.Province.query.filter_by(name=province2_name).first()
+            cost1 = models.Cost_of_Living.query.filter_by(province_name=province1_name, year=year1).first()
+            cost2 = models.Cost_of_Living.query.filter_by(province_name=province2_name, year=year2).first()
+
+    return render_template("compare_cost.html", provinces=provinces, years=years, cost1=cost1, cost2=cost2, province1=province1, province2=province2, year1=year1, year2=year2)
+
 if __name__ == "__main__":
     app.run(debug=True)
