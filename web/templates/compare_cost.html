@@ -125,67 +125,55 @@
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Food</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.food - cost1.food) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.food - cost1.food) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.food - cost1.food) / cost1.food) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.food|default(0) - cost1.food|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.food|default(0) - cost1.food|default(0)) > 0 else "" }}{{ (cost2.food|default(0) - cost1.food|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.food - cost1.food) / cost1.food * 100 > 0 else "" }}{{ ((cost2.food - cost1.food) / cost1.food * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Housing</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.housing - cost1.housing) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.housing - cost1.housing) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.housing - cost1.housing) / cost1.housing) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.housing|default(0) - cost1.housing|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.housing|default(0) - cost1.housing|default(0)) > 0 else "" }}{{ (cost2.housing|default(0) - cost1.housing|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.housing - cost1.housing) / cost1.housing * 100 > 0 else "" }}{{ ((cost2.housing - cost1.housing) / cost1.housing * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Energy</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.energy - cost1.energy) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.energy - cost1.energy) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.energy - cost1.energy) / cost1.energy) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.energy|default(0) - cost1.energy|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.energy|default(0) - cost1.energy|default(0)) > 0 else "" }}{{ (cost2.energy|default(0) - cost1.energy|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.energy - cost1.energy) / cost1.energy * 100 > 0 else "" }}{{ ((cost2.energy - cost1.energy) / cost1.energy * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Transportation</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.transportation - cost1.transportation) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.transportation - cost1.transportation) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.transportation - cost1.transportation) / cost1.transportation) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.transportation|default(0) - cost1.transportation|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.transportation|default(0) - cost1.transportation|default(0)) > 0 else "" }}{{ (cost2.transportation|default(0) - cost1.transportation|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.transportation - cost1.transportation) / cost1.transportation * 100 > 0 else "" }}{{ ((cost2.transportation - cost1.transportation) / cost1.transportation * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Entertainment</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.entertainment - cost1.entertainment) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.entertainment - cost1.entertainment) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.entertainment - cost1.entertainment) / cost1.entertainment) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.entertainment|default(0) - cost1.entertainment|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.entertainment|default(0) - cost1.entertainment|default(0)) > 0 else "" }}{{ (cost2.entertainment|default(0) - cost1.entertainment|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.entertainment - cost1.entertainment) / cost1.entertainment * 100 > 0 else "" }}{{ ((cost2.entertainment - cost1.entertainment) / cost1.entertainment * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
                         <h5 class="mb-1">Total Cost</h5>
-                        <small class="text-muted">
-                            <span class="{{ 'text-success' if (cost2.total_cost - cost1.total_cost) < 0 else 'text-danger' }}">
-                                {{ "%.2f" | format(cost2.total_cost - cost1.total_cost) }} ฿ 
-                                ({{ "%.2f" | format(((cost2.total_cost - cost1.total_cost) / cost1.total_cost) * 100) }}%)
-                            </span>
-                        </small>
+                        <span class="price-diff {{ 'text-success' if (cost2.total_cost|default(0) - cost1.total_cost|default(0)) < 0 else 'text-danger' }}">
+                            {{ "+" if (cost2.total_cost|default(0) - cost1.total_cost|default(0)) > 0 else "" }}{{ (cost2.total_cost|default(0) - cost1.total_cost|default(0)) | float | round(2) }} ฿ 
+                            ({{ "+" if (cost2.total_cost - cost1.total_cost) / cost1.total_cost * 100 > 0 else "" }}{{ ((cost2.total_cost - cost1.total_cost) / cost1.total_cost * 100) | float | round(2) }}%)
+                        </span>
                     </div>
                 </div>
             </div>
