@@ -47,3 +47,5 @@ class Cost_of_Living_Form(FlaskForm):
     food = fields.FloatField("Food Cost", [validators.DataRequired()])
     housing = fields.FloatField("Housing Cost", [validators.DataRequired()])
     energy = fields.FloatField("Energy Cost", [validators.DataRequired()])
+    transportation = fields.FloatField("Transportation Cost", [validators.DataRequired()])
+    entertainment = fields.FloatField("Entertainment Cost", [validators.DataRequired()])

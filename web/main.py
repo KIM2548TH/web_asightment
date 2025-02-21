@@ -107,7 +107,7 @@ def create_province():
 def create_cost_of_living():
     form = forms.Cost_of_Living_Form()
     form.province_name.choices = [(p.name, p.name) for p in models.Province.query.all()]
-    form.year.choices = [(year, year) for year in range(1990, 2026)]  # กำหนดตัวเลือกปีตั้งแต่ 2000 ถึง 2025
+    form.year.choices = [(year, year) for year in range(2000, 2026)]  # กำหนดตัวเลือกปีตั้งแต่ 2000 ถึง 2025
 
     if form.validate_on_submit():
         existing_cost = models.Cost_of_Living.query.filter_by(
@@ -120,12 +120,16 @@ def create_cost_of_living():
             return render_template("create_cost_of_living.html", form=form)
 
         try:
+            total_cost = form.food.data + form.housing.data + form.energy.data + form.transportation.data + form.entertainment.data  # คำนวณค่า total_cost
             cost = models.Cost_of_Living(
                 province_name=form.province_name.data,
                 year=form.year.data,
                 food=form.food.data,
                 housing=form.housing.data,
-                energy=form.energy.data
+                energy=form.energy.data,
+                transportation=form.transportation.data,
+                entertainment=form.entertainment.data,
+                total_cost=total_cost  # บันทึกค่า total_cost
             )
             models.db.session.add(cost)
             models.db.session.commit()
