@@ -87,3 +87,33 @@ tr:hover {
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+details {
+    width: 100%;
+    text-align: center;
+}
+
+summary {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    width: auto;
+}
+
+.form-container {
+    margin-top: 10px;
+}
+
+/* ปรับ icon ให้เปลี่ยนทิศเมื่อเปิด-ปิด */
+details[open] summary::before {
+    content: "🔼 ";
+}
+
+summary::before {
+    content: "🔽 ";
+}

@@ -222,7 +222,7 @@ def view_province():
             flash("No data available for the previous year.", "danger")
             return redirect(url_for("view_province"))
 
-        return render_template("view_province.html", province=province, year=year, cost=cost, previous_cost=previous_cost, provinces=provinces, years=years)
+        return render_template("view_province.html", province=province, year=year, previous_year=previous_year, cost=cost, previous_cost=previous_cost, provinces=provinces, years=years)
 
     return render_template("view_province.html", provinces=provinces, years=years, cost=None)
 
