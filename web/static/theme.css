@@ -73,3 +73,17 @@ tr:hover {
     max-width: 90%;
     height: auto;
 }
+
+
+.price-diff-success {
+    background-color: #e4ffea; /* เขียว */
+    color: rgb(9, 172, 3);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.price-diff-danger {
+    background-color: #ffe7e9; /* แดง */
+    color: rgb(206, 0, 0);
+    padding: 5px 10px;
+    border-radius: 5px;
+}

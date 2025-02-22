@@ -70,10 +70,10 @@
 
     {% if cost1 and cost2 %}
     <div class="container mt-4">
-        <div class="container mt-4">
+        <div class="d-flex justify-content-center">
             <div class="cost-card d-flex align-items-center mb-3" >
                 <div class="flex-grow-1 text-center">
-                    <h4 class="fw-bold text-center" >Comparison for {{ year1 }} and {{ year2 }}</h4>
+                    <h2 class="fw-bold text-center" >Comparison for {{ year1 }} and {{ year2 }}</h2>
                 </div>
             </div>
         </div>
@@ -97,54 +97,54 @@
         <div class="row align-items-center">
             <div class="col-md-5">
                 <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 text-center">
+                        <h5 >{{ cost1.food }} ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }})</small>
+                    </div>
                     <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Food</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.food }}</small>
-                    </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 text-center">
+                        <h5 >{{ cost1.housing }} ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) </small>
+                    </div>
                     <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Housing</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.housing }}</small>
-                    </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 text-center">
+                        <h5 >{{ cost1.energy }} ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) </small>
+                    </div>
                     <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Energy</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.energy }}</small>
-                    </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 text-center">
+                        <h5 >{{ cost1.transportation }} ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) </small>
+                    </div>
                     <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Transportation</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.transportation }}</small>
-                    </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 text-center">
+                        <h5 >{{ cost1.entertainment }}  ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) </small>
+                    </div>
                     <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Entertainment</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.entertainment }}</small>
-                    </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Total Cost</h5>
-                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) ฿{{ cost1.total_cost }}</small>
+                        <h5 >{{ cost1.total_cost }}  ฿</h5>
+                        <small class="text-muted">{{ province1.name }} ({{ year1 }}) </small>
                     </div>
+                    <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
                 </div>
             </div>
 
             <div class="col-md-2 text-center">
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Food</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.food|default(0) - cost1.food|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Food-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.food|default(0) - cost1.food|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.food|default(0) - cost1.food|default(0)) > 0 else "" }}{{ (cost2.food|default(0) - cost1.food|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.food - cost1.food) / cost1.food * 100 > 0 else "" }}{{ ((cost2.food - cost1.food) / cost1.food * 100) | float | round(2) }}%)
                         </span>
@@ -152,8 +152,8 @@
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Housing</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.housing|default(0) - cost1.housing|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Housing-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.housing|default(0) - cost1.housing|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.housing|default(0) - cost1.housing|default(0)) > 0 else "" }}{{ (cost2.housing|default(0) - cost1.housing|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.housing - cost1.housing) / cost1.housing * 100 > 0 else "" }}{{ ((cost2.housing - cost1.housing) / cost1.housing * 100) | float | round(2) }}%)
                         </span>
@@ -161,8 +161,8 @@
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Energy</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.energy|default(0) - cost1.energy|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Energy-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.energy|default(0) - cost1.energy|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.energy|default(0) - cost1.energy|default(0)) > 0 else "" }}{{ (cost2.energy|default(0) - cost1.energy|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.energy - cost1.energy) / cost1.energy * 100 > 0 else "" }}{{ ((cost2.energy - cost1.energy) / cost1.energy * 100) | float | round(2) }}%)
                         </span>
@@ -170,8 +170,8 @@
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Transportation</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.transportation|default(0) - cost1.transportation|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Transportation-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.transportation|default(0) - cost1.transportation|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.transportation|default(0) - cost1.transportation|default(0)) > 0 else "" }}{{ (cost2.transportation|default(0) - cost1.transportation|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.transportation - cost1.transportation) / cost1.transportation * 100 > 0 else "" }}{{ ((cost2.transportation - cost1.transportation) / cost1.transportation * 100) | float | round(2) }}%)
                         </span>
@@ -179,8 +179,8 @@
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Entertainment</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.entertainment|default(0) - cost1.entertainment|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Entertainment-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.entertainment|default(0) - cost1.entertainment|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.entertainment|default(0) - cost1.entertainment|default(0)) > 0 else "" }}{{ (cost2.entertainment|default(0) - cost1.entertainment|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.entertainment - cost1.entertainment) / cost1.entertainment * 100 > 0 else "" }}{{ ((cost2.entertainment - cost1.entertainment) / cost1.entertainment * 100) | float | round(2) }}%)
                         </span>
@@ -188,8 +188,8 @@
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Total Cost</h5>
-                        <span class="price-diff {{ 'text-success' if (cost2.total_cost|default(0) - cost1.total_cost|default(0)) < 0 else 'text-danger' }}">
+                        <h5 class="mb-1">Total Cost-></h5>
+                        <span class="price-diff {{ 'price-diff-success' if (cost2.total_cost|default(0) - cost1.total_cost|default(0)) < 0 else 'price-diff-danger' }}">
                             {{ "+" if (cost2.total_cost|default(0) - cost1.total_cost|default(0)) > 0 else "" }}{{ (cost2.total_cost|default(0) - cost1.total_cost|default(0)) | float | round(2) }} ฿ 
                             ({{ "+" if (cost2.total_cost - cost1.total_cost) / cost1.total_cost * 100 > 0 else "" }}{{ ((cost2.total_cost - cost1.total_cost) / cost1.total_cost * 100) | float | round(2) }}%)
                         </span>
@@ -201,43 +201,43 @@
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Food</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.food }}</small>
+                        <h5>{{ cost2.food }} ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Housing</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.housing }}</small>
+                        <h5>{{ cost2.housing }} ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Energy</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.energy }}</small>
+                        <h5>{{ cost2.energy }} ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Transportation</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.transportation }}</small>
+                        <h5>{{ cost2.transportation }}  ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Entertainment</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.entertainment }}</small>
+                        <h5>{{ cost2.entertainment }} ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
                 <div class="cost-card d-flex align-items-center mb-3">
                     <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
                     <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Total Cost</h5>
-                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) ฿{{ cost2.total_cost }}</small>
+                        <h5> {{ cost2.total_cost }} ฿</h5>
+                        <small class="text-muted">{{ province2.name }} ({{ year2 }}) </small>
                     </div>
                 </div>
             </div>
