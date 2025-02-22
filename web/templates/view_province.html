@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container mt-4">
+    <h1 class="fw-bold text-center">View Province Cost of Living</h1>
+    <p class="text-muted text-center">View living expenses for a selected province in Thailand</p>
+
+    <div class="d-flex justify-content-center">
+        <form method="POST" action="{{ url_for('view_province') }}">
+            <div class="row justify-content-center">
+                <div class="col-md-12 bg-white p-4 rounded shadow">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Select Province</label>
+                            <select class="form-select" name="province">
+                                <option value="">Select a province</option>
+                                {% for province in provinces %}
+                                    <option value="{{ province.name }}">
+                                        &#x1F4CD; {{ province.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Select Year</label>
+                            <select class="form-select" name="year">
+                                <option value="">Select a year</option>
+                                {% for year in years %}
+                                    <option value="{{ year }}">
+                                        &#x1F4C5; {{ year }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% if cost and previous_cost %}
+    <div class="container mt-4">
+        <div class="row align-items-center">
+            <div class="mt-4 mx-auto" style="max-width: 600px;">
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Food</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.food }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.food - previous_cost.food) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.food - previous_cost.food) > 0 else "" }}{{ (cost.food - previous_cost.food) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.food - previous_cost.food) / previous_cost.food * 100 > 0 else "" }}{{ ((cost.food - previous_cost.food) / previous_cost.food * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Housing</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.housing }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.housing - previous_cost.housing) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.housing - previous_cost.housing) > 0 else "" }}{{ (cost.housing - previous_cost.housing) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.housing - previous_cost.housing) / previous_cost.housing * 100 > 0 else "" }}{{ ((cost.housing - previous_cost.housing) / previous_cost.housing * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Energy</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.energy }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.energy - previous_cost.energy) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.energy - previous_cost.energy) > 0 else "" }}{{ (cost.energy - previous_cost.energy) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.energy - previous_cost.energy) / previous_cost.energy * 100 > 0 else "" }}{{ ((cost.energy - previous_cost.energy) / previous_cost.energy * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Transportation</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.transportation }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.transportation - previous_cost.transportation) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.transportation - previous_cost.transportation) > 0 else "" }}{{ (cost.transportation - previous_cost.transportation) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.transportation - previous_cost.transportation) / previous_cost.transportation * 100 > 0 else "" }}{{ ((cost.transportation - previous_cost.transportation) / previous_cost.transportation * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Entertainment</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.entertainment }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.entertainment - previous_cost.entertainment) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.entertainment - previous_cost.entertainment) > 0 else "" }}{{ (cost.entertainment - previous_cost.entertainment) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.entertainment - previous_cost.entertainment) / previous_cost.entertainment * 100 > 0 else "" }}{{ ((cost.entertainment - previous_cost.entertainment) / previous_cost.entertainment * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+                <div class="cost-card d-flex align-items-center mb-3">
+                    <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
+                    <div class="flex-grow-1 text-center">
+                        <h5 class="mb-1">Total Cost</h5>
+                        <small class="text-muted">{{ province.name }} ({{ year }}) ฿{{ cost.total_cost }}</small>
+                    </div>
+                    <span class="price-diff {{ 'text-success' if (cost.total_cost - previous_cost.total_cost) < 0 else 'text-danger' }}">
+                        {{ "+" if (cost.total_cost - previous_cost.total_cost) > 0 else "" }}{{ (cost.total_cost - previous_cost.total_cost) | float | round(2) }} ฿ 
+                        ({{ "+" if (cost.total_cost - previous_cost.total_cost) / previous_cost.total_cost * 100 > 0 else "" }}{{ ((cost.total_cost - previous_cost.total_cost) / previous_cost.total_cost * 100) | float | round(2) }}%)
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 d-flex">
+                <div class="container mt-5">
+                    <h2 class="fw-bold text-center">{{ province.name }} -- {{ year }}</h2>
+                    <p class="text-center text-muted">This data shows the difference between the previous year and the selected year.</p>
+                </div>
+                <img src="data:image/png;base64,{{ province.image_file | b64encode }}" class="cost-image">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

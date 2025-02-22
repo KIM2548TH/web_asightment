@@ -194,5 +194,37 @@ def compare_cost():
 
     return render_template("compare_cost.html", provinces=provinces, years=years, cost1=cost1, cost2=cost2, province1=province1, province2=province2, year1=year1, year2=year2)
 
+@app.route("/view_province", methods=["GET", "POST"])
+@login_required
+def view_province():
+    provinces = models.Province.query.all()
+    years = models.db.session.query(models.Cost_of_Living.year).distinct().order_by(models.Cost_of_Living.year.desc()).all()
+    years = [year[0] for year in years]
+
+    if request.method == "POST":
+        province_name = request.form.get("province")
+        year = request.form.get("year")
+
+        if not province_name or not year:
+            flash("Please select both province and year.", "danger")
+            return redirect(url_for("view_province"))
+
+        province = models.Province.query.filter_by(name=province_name).first()
+        cost = models.Cost_of_Living.query.filter_by(province_name=province_name, year=year).first()
+        previous_year = int(year) - 1
+        previous_cost = models.Cost_of_Living.query.filter_by(province_name=province_name, year=previous_year).first()
+
+        if not cost:
+            flash("No data available for the selected province and year.", "danger")
+            return redirect(url_for("view_province"))
+
+        if not previous_cost:
+            flash("No data available for the previous year.", "danger")
+            return redirect(url_for("view_province"))
+
+        return render_template("view_province.html", province=province, year=year, cost=cost, previous_cost=previous_cost, provinces=provinces, years=years)
+
+    return render_template("view_province.html", provinces=provinces, years=years, cost=None)
+
 if __name__ == "__main__":
     app.run(debug=True)
