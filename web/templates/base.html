@@ -20,7 +20,22 @@
                 <a href="{{ url_for('index') }}" class="btn fw-bold">BACK TO HOME</a>
             </div>
             <div>
-                <a href="{{ url_for('login') }}" class="btn fw-bold">Login</a>
+                {% if current_user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn fw-bold dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> {{ current_user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li>
+                                <form method="POST" action="{{ url_for('logout') }}">
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn fw-bold">Login</a>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -69,7 +84,7 @@
                     </div>
                 </li>
                 <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-eye"></i></div>
+                    <div class="sidebar-icon me-3"><i class="bi bi-bar-chart-line"></i></div>
                     <div class="flex-grow-1">
                         <a href="{{ url_for('compare_cost') }}" class="text-decoration-none text-dark">
                             <h6 class="mb-0">Compare Cost</h6>

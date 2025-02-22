@@ -1,189 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thailand Cost of Living</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body class="bg-light">
-    <header class="py-3 border-bottom">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <button class="btn fw-bold" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-                    ☰
-                </button>
-                <a href="{{ url_for('index') }}" class="btn fw-bold">BACK TO HOME</a>
-            </div>
-            <div>
-                <a href="{{ url_for('login') }}" class="btn fw-bold">Login</a>
-            </div>
-        </div>
-    </header>
+{% extends 'base.html' %}
 
-    <!-- Sidebar -->
-    <div class="offcanvas offcanvas-start" id="sidebar">
-        <div class="offcanvas-header">
-            <main class="container text-center mt-1">
-                <h5 class="fw-bold">
-                    Menu
-                </h5>
-            </main>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+{% block body %}
+<main class="container text-center mt-5">
+    <h1 class="fw-bold">Thailand Cost of Living Comparison</h1>
+    <p class="text-muted">Compare living expenses between different provinces in Thailand</p>
+</main>
+<div class="container mt-4">
+    <div class="row align-items-center">
+        <div class="mt-4 mx-auto" style="max-width: 600px;">
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Food</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.food }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.food_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.food_diff > 0 else "" }}{{ (cost_comparison.food_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.food_diff / cost_comparison.latest.food * 100) > 0 else "" }}{{ ((cost_comparison.food_diff / cost_comparison.latest.food * 100)) | float | round(2) }}%)
+                </span>
+            </div>
+
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Housing</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.housing }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.housing_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.housing_diff > 0 else "" }}{{ (cost_comparison.housing_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.housing_diff / cost_comparison.latest.housing * 100) > 0 else "" }}{{ ((cost_comparison.housing_diff / cost_comparison.latest.housing * 100)) | float | round(2) }}%)
+                </span>
+            </div>
+
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Energy</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.energy }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.energy_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.energy_diff > 0 else "" }}{{ (cost_comparison.energy_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.energy_diff / cost_comparison.latest.energy * 100) > 0 else "" }}{{ ((cost_comparison.energy_diff / cost_comparison.latest.energy * 100)) | float | round(2) }}%)
+                </span>
+            </div>
+
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Transportation</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.transportation }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.transportation_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.transportation_diff > 0 else "" }}{{ (cost_comparison.transportation_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100) > 0 else "" }}{{ ((cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100)) | float | round(2) }}%)
+                </span>
+            </div>
+
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Entertainment</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.entertainment }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.entertainment_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.entertainment_diff > 0 else "" }}{{ (cost_comparison.entertainment_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100) > 0 else "" }}{{ ((cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100)) | float | round(2) }}%)
+                </span>
+            </div>
+
+            <div class="cost-card d-flex align-items-center mb-3">
+                <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
+                <div class="flex-grow-1 text-center">
+                    <h5 class="mb-1">Total Cost</h5>
+                    <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.total_cost }}</small>
+                </div>
+                <span class="price-diff {{ 'price-diff-success' if cost_comparison.total_cost_diff < 0 else 'price-diff-danger' }}">
+                    {{ "+" if cost_comparison.total_cost_diff > 0 else "" }}{{ (cost_comparison.total_cost_diff) | float | round(2) }} ฿ 
+                    ({{ "+" if (cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100) > 0 else "" }}{{ ((cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100)) | float | round(2) }}%)
+                </span>
+            </div>
         </div>
-        <div class="offcanvas-body">
-            <ul class="list-group border-0">
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-house-door"></i></div>
-                    <div class="flex-grow-1">
-                        <a href="{{ url_for('index') }}" class="text-decoration-none text-dark">
-                            <h6 class="mb-0">Home</h6>
-                        </a>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-plus-circle"></i></div>
-                    <div class="flex-grow-1">
-                        <a href="{{ url_for('create_province') }}" class="text-decoration-none text-dark">
-                            <h6 class="mb-0">Create Province</h6>
-                        </a>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-plus-circle"></i></div>
-                    <div class="flex-grow-1">
-                        <a href="{{ url_for('create_cost_of_living') }}" class="text-decoration-none text-dark">
-                            <h6 class="mb-0">Create Cost of Living</h6>
-                        </a>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-eye"></i></div>
-                    <div class="flex-grow-1">
-                        <a href="{{ url_for('view_province') }}" class="text-decoration-none text-dark">
-                            <h6 class="mb-0">View Province</h6>
-                        </a>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-eye"></i></div>
-                    <div class="flex-grow-1">
-                        <a href="{{ url_for('compare_cost') }}" class="text-decoration-none text-dark">
-                            <h6 class="mb-0">Compare Cost</h6>
-                        </a>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-info-circle"></i></div>
-                    <div class="flex-grow-1">
-                        <h6 class="mb-0">About</h6>
-                    </div>
-                </li>
-                <li class="list-group-item list-group-item-action border-0 p-3 d-flex align-items-center rounded-3 shadow-sm mb-2">
-                    <div class="sidebar-icon me-3"><i class="bi bi-telephone"></i></div>
-                    <div class="flex-grow-1">
-                        <h6 class="mb-0">Contact</h6>
-                    </div>
-                </li>
-            </ul>
-            
+
+        <div class="col-md-4 d-flex">
+            <img src="data:image/png;base64,{{ province.image_file | b64encode }}" class="cost-image">
         </div>
     </div>
-
-    <!-- Main Content -->
-    <main class="container text-center mt-5">
-        <h1 class="fw-bold">Thailand Cost of Living Comparison</h1>
-        <p class="text-muted">Compare living expenses between different provinces in Thailand</p>
-    </main>
-    <div class="container mt-4">
-        <div class="row align-items-center">
-            <div class="mt-4 mx-auto" style="max-width: 600px;">
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-emoji-smile"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Food</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.food }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.food_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.food_diff > 0 else "" }}{{ (cost_comparison.food_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.food_diff / cost_comparison.latest.food * 100) > 0 else "" }}{{ ((cost_comparison.food_diff / cost_comparison.latest.food * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-    
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-house-door"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Housing</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.housing }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.housing_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.housing_diff > 0 else "" }}{{ (cost_comparison.housing_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.housing_diff / cost_comparison.latest.housing * 100) > 0 else "" }}{{ ((cost_comparison.housing_diff / cost_comparison.latest.housing * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-    
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-lightning"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Energy</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.energy }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.energy_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.energy_diff > 0 else "" }}{{ (cost_comparison.energy_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.energy_diff / cost_comparison.latest.energy * 100) > 0 else "" }}{{ ((cost_comparison.energy_diff / cost_comparison.latest.energy * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-    
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-car-front"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Transportation</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.transportation }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.transportation_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.transportation_diff > 0 else "" }}{{ (cost_comparison.transportation_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100) > 0 else "" }}{{ ((cost_comparison.transportation_diff / cost_comparison.latest.transportation * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-    
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-ticket"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Entertainment</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.entertainment }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.entertainment_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.entertainment_diff > 0 else "" }}{{ (cost_comparison.entertainment_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100) > 0 else "" }}{{ ((cost_comparison.entertainment_diff / cost_comparison.latest.entertainment * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-
-                <div class="cost-card d-flex align-items-center mb-3">
-                    <div class="cost-icon me-3"><i class="bi bi-cash-stack"></i></div>
-                    <div class="flex-grow-1 text-center">
-                        <h5 class="mb-1">Total Cost</h5>
-                        <small class="text-muted">Thailand ({{ latest_year }}) ฿{{ cost_comparison.latest.total_cost }}</small>
-                    </div>
-                    <span class="price-diff {{ 'price-diff-success' if cost_comparison.total_cost_diff < 0 else 'price-diff-danger' }}">
-                        {{ "+" if cost_comparison.total_cost_diff > 0 else "" }}{{ (cost_comparison.total_cost_diff) | float | round(2) }} ฿ 
-                        ({{ "+" if (cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100) > 0 else "" }}{{ ((cost_comparison.total_cost_diff / cost_comparison.latest.total_cost * 100)) | float | round(2) }}%)
-                    </span>
-                </div>
-            </div>
-
-            <div class="col-md-4 d-flex">
-                <img src="data:image/png;base64,{{ province.image_file | b64encode }}" class="cost-image">
-            </div>
-        </div>
-    </div>
-    
-
-    <footer class="text-center py-3 mt-4">
-        <p>&copy; 2025 Thailand Cost of Living. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+</div>
+{% endblock %}
