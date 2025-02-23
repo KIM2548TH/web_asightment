@@ -74,6 +74,9 @@ class User(db.Model, UserMixin):
     def password_hash(self, password):
         password_hash = bcrypt.generate_password_hash(password.encode("utf-8"))
         self._password_hash = password_hash.decode("utf-8")
+    
+    def has_role(self, role_name):
+        return any(role.name == role_name for role in self.roles)
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode("utf-8"))

@@ -11,27 +11,15 @@ db = SQLAlchemy(app)
 def read_image(file_path):
     with open(file_path, "rb") as file:
         return file.read()
-class Province(db.Model):
-    __tablename__ = "provinces"
-    name = db.Column(db.String(100), primary_key=True, unique=True, nullable=False)
-    region = db.Column(db.String(50), nullable=False)
-    image_file = db.Column(db.LargeBinary, nullable=True)
-    cost_of_living = db.relationship("Cost_of_Living", back_populates="province")
-    created_date = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
-
-class Cost_of_Living(db.Model):
-    __tablename__ = "cost_of_livings"
-    id = db.Column(db.Integer, primary_key=True)
-    province_name = db.Column(db.String(100), db.ForeignKey("provinces.name"), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    food = db.Column(db.Integer, nullable=False)
-    housing = db.Column(db.Integer, nullable=False)
-    energy = db.Column(db.Integer, nullable=False)
-    transportation = db.Column(db.Integer, nullable=False)
-    entertainment = db.Column(db.Integer, nullable=False)
-    total_cost = db.Column(db.Integer, nullable=False)
-    province = db.relationship("Province", back_populates="cost_of_living")
-    created_date = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    
+def create_roles():
+    roles = ["admin", "user"]
+    for role_name in roles:
+        role = models.Role.query.filter_by(name=role_name).first()
+        if not role:
+            role = models.Role(name=role_name)
+            db.session.add(role)
+    db.session.commit()
 
 def add_data():
     data = [
@@ -98,14 +86,14 @@ def add_data():
     ]
 
     for province_data in data:
-        new_province = Province(
+        new_province = models.Province(
             name=province_data["province_name"],
             region=province_data["region"],
             image_file=province_data["image_file"]
         )
         db.session.add(new_province)
         for cost_data in province_data["cost_of_living"]:
-            new_cost = Cost_of_Living(
+            new_cost = models.Cost_of_Living(
                 province_name=province_data["province_name"],
                 year=cost_data["year"],
                 food=cost_data["food"],
