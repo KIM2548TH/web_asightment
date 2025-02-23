@@ -1,12 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import models
+import os
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
+def read_image(file_path):
+    with open(file_path, "rb") as file:
+        return file.read()
 class Province(db.Model):
     __tablename__ = "provinces"
     name = db.Column(db.String(100), primary_key=True, unique=True, nullable=False)
@@ -34,7 +38,7 @@ def add_data():
         {
             "province_name": "Thailand",
             "region": "กลาง",
-            "image_file": None,
+            "image_file": read_image("static/images/thailand.png"),
             "cost_of_living": [
                 {"year": 2020, "food": 5000, "housing": 7500, "energy": 1500, "transportation": 2000, "entertainment": 2500, "total_cost": 18500},
                 {"year": 2021, "food": 5150, "housing": 7725, "energy": 1545, "transportation": 2060, "entertainment": 2575, "total_cost": 19055},
@@ -46,7 +50,7 @@ def add_data():
         {
             "province_name": "Chiang Mai",
             "region": "เหนือ",
-            "image_file": None,
+            "image_file": read_image("static/images/ChiangMai.png"),
             "cost_of_living": [
                 {"year": 2020, "food": 4000, "housing": 6000, "energy": 1000, "transportation": 1500, "entertainment": 2000, "total_cost": 14500},
                 {"year": 2021, "food": 4120, "housing": 6180, "energy": 1030, "transportation": 1545, "entertainment": 2060, "total_cost": 14935},
@@ -58,7 +62,7 @@ def add_data():
         {
             "province_name": "Khon Kaen",
             "region": "อีสาน",
-            "image_file": None,
+            "image_file": read_image("static/images/KhonKaen.png"),
             "cost_of_living": [
                 {"year": 2020, "food": 3500, "housing": 5000, "energy": 750, "transportation": 1250, "entertainment": 1500, "total_cost": 12000},
                 {"year": 2021, "food": 3605, "housing": 5150, "energy": 772.5, "transportation": 1287.5, "entertainment": 1545, "total_cost": 12360},
@@ -70,7 +74,7 @@ def add_data():
         {
             "province_name": "Phuket",
             "region": "ใต้",
-            "image_file": None,
+            "image_file": read_image("static/images/Phuket.png"),
             "cost_of_living": [
                 {"year": 2020, "food": 4500, "housing": 7000, "energy": 1250, "transportation": 1750, "entertainment": 2250, "total_cost": 16750},
                 {"year": 2021, "food": 4635, "housing": 7210, "energy": 1287.5, "transportation": 1802.5, "entertainment": 2317.5, "total_cost": 17252.5},
@@ -82,7 +86,7 @@ def add_data():
         {
             "province_name": "Bangkok",
             "region": "กลาง",
-            "image_file": None,
+            "image_file": read_image("static/images/Bangkok.png"),
             "cost_of_living": [
                 {"year": 2020, "food": 6000, "housing": 9000, "energy": 2000, "transportation": 2500, "entertainment": 3000, "total_cost": 22500},
                 {"year": 2021, "food": 6180, "housing": 9270, "energy": 2060, "transportation": 2575, "entertainment": 3090, "total_cost": 23175},

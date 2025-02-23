@@ -33,6 +33,7 @@ app.jinja_env.filters['b64encode'] = b64encode
 def load_user(user_id):
     return models.User.query.get(int(user_id))
 
+
 @app.route("/")
 def index():
     # ดึงค่าที่มีค่ามากที่สุดและค่าที่มีค่ามากที่สุดลำดับสอง
@@ -104,6 +105,7 @@ def register():
 
 @app.route("/create_province", methods=["GET", "POST"])
 @login_required
+@acl.roles_required("admin")
 def create_province():
     form = forms.Province_Form()
     
@@ -136,6 +138,7 @@ def create_province():
 
 @app.route("/create_cost_of_living", methods=["GET", "POST"])
 @login_required
+@acl.roles_required("admin")
 def create_cost_of_living():
     form = forms.Cost_of_Living_Form()
     form.province_name.choices = [(p.name, p.name) for p in models.Province.query.all()]
