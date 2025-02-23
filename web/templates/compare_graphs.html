@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost of Living Comparison</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='graphs_theme.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cost of Living Comparison: {{ province_name1 }} vs {{ province_name2 }}</h1>
+        <div class="cost-card d-flex align-items mb-3">
+            <h6>These graphs compare the cost of living in {{ province_name1 }} and {{ province_name2 }} over the years. The bar chart and line chart display the costs for different categories such as Food, Housing, Energy, Transportation, and Entertainment. The pie charts show the distribution of costs for the latest year for each province.</h6>
+        </div>
+        
+        <div class="charts">
+            <div class="chart">
+                {{ bar_chart|safe }}
+            </div>
+            <div class="chart">
+                {{ line_chart|safe }}
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart">
+                {{ pie_chart1|safe }}
+            </div>
+            <div class="chart">
+                {{ pie_chart2|safe }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

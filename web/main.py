@@ -330,5 +330,105 @@ def show_graphs():
 
     return render_template("show_graphs.html", bar_chart=bar_chart, line_chart=line_chart, pie_chart=pie_chart, province_name=province_name, percentage_increase=percentage_increase, trends=trends, trend_percentage=trend_percentage)
 
+@app.route("/compare_cost/compare_graphs", methods=["POST"])
+@login_required
+def compare_graphs():
+    province_name1 = request.form.get("province_name1")
+    province_name2 = request.form.get("province_name2")
+    if not province_name1 or not province_name2:
+        flash("Both province names are required.", "danger")
+        return redirect(url_for("compare_cost"))
+
+    costs1 = models.Cost_of_Living.query.filter_by(province_name=province_name1).all()
+    costs2 = models.Cost_of_Living.query.filter_by(province_name=province_name2).all()
+    if not costs1 or not costs2:
+        flash("No cost of living data available for the selected provinces.", "danger")
+        return redirect(url_for("compare_cost"))
+
+    # Prepare data for the graphs
+    data1 = {
+        "Year": [cost.year for cost in costs1],
+        "Food": [cost.food for cost in costs1],
+        "Housing": [cost.housing for cost in costs1],
+        "Energy": [cost.energy for cost in costs1],
+        "Transportation": [cost.transportation for cost in costs1],
+        "Entertainment": [cost.entertainment for cost in costs1],
+        "Total Cost": [cost.total_cost for cost in costs1],
+    }
+    df1 = pd.DataFrame(data1)
+
+    data2 = {
+        "Year": [cost.year for cost in costs2],
+        "Food": [cost.food for cost in costs2],
+        "Housing": [cost.housing for cost in costs2],
+        "Energy": [cost.energy for cost in costs2],
+        "Transportation": [cost.transportation for cost in costs2],
+        "Entertainment": [cost.entertainment for cost in costs2],
+        "Total Cost": [cost.total_cost for cost in costs2],
+    }
+    df2 = pd.DataFrame(data2)
+
+    # Create bar chart
+    bar_fig = go.Figure()
+    colors = ['#1f77b4', '#ff7f0e']
+    for i, column in enumerate(df1.columns[1:]):
+        bar_fig.add_trace(go.Bar(x=df1["Year"], y=df1[column], name=f"{province_name1} - {column}", marker_color=colors[0]))
+        bar_fig.add_trace(go.Bar(x=df2["Year"], y=df2[column], name=f"{province_name2} - {column}", marker_color=colors[1]))
+
+    bar_fig.update_layout(
+        title=f"Cost of Living Comparison: {province_name1} vs {province_name2} (Bar Chart)",
+        xaxis_title="Year",
+        yaxis_title="Cost",
+        barmode='group',
+        template='plotly_white',
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+
+    bar_chart = bar_fig.to_html(full_html=False)
+
+    # Create line chart
+    line_fig = go.Figure()
+    for i, column in enumerate(df1.columns[1:]):
+        line_fig.add_trace(go.Scatter(x=df1["Year"], y=df1[column], mode='lines+markers', name=f"{province_name1} - {column}", line=dict(color=colors[0])))
+        line_fig.add_trace(go.Scatter(x=df2["Year"], y=df2[column], mode='lines+markers', name=f"{province_name2} - {column}", line=dict(color=colors[1])))
+
+    line_fig.update_layout(
+        title=f"Cost of Living Comparison: {province_name1} vs {province_name2} (Line Chart)",
+        xaxis_title="Year",
+        yaxis_title="Cost",
+        template='plotly_white',
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+
+    line_chart = line_fig.to_html(full_html=False)
+
+    # Create pie chart for the latest year
+    latest_year1 = df1["Year"].max()
+    latest_year2 = df2["Year"].max()
+    pie_data1 = df1[df1["Year"] == latest_year1].iloc[0][1:].to_dict()
+    pie_data2 = df2[df2["Year"] == latest_year2].iloc[0][1:].to_dict()
+    pie_fig1 = px.pie(names=pie_data1.keys(), values=pie_data1.values(), title=f"Cost Distribution for {province_name1} ({latest_year1})", color_discrete_sequence=[colors[0]])
+    pie_fig2 = px.pie(names=pie_data2.keys(), values=pie_data2.values(), title=f"Cost Distribution for {province_name2} ({latest_year2})", color_discrete_sequence=[colors[1]])
+
+    pie_fig1.update_layout(
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+    pie_fig2.update_layout(
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+
+    pie_chart1 = pie_fig1.to_html(full_html=False)
+    pie_chart2 = pie_fig2.to_html(full_html=False)
+
+    return render_template("compare_graphs.html", bar_chart=bar_chart, line_chart=line_chart, pie_chart1=pie_chart1, pie_chart2=pie_chart2, province_name1=province_name1, province_name2=province_name2)
+
 if __name__ == "__main__":
     app.run(debug=True)
