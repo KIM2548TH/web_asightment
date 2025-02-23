@@ -135,6 +135,19 @@
             </div>
         </div>
     </div>
+        <div class="flex-grow-1 text-center">
+            <form action="{{ url_for('show_graphs') }}" method="POST">
+                <input type="hidden" name="province_name" value="{{ province.name }}">
+                <button type="submit" class="btn">
+                    <h4 class="fw-bold">
+                    🔽
+                    </h4>
+                    <h4 class="fw-bold">
+                        Click to Hide/Show Form
+                    </h4>
+                </button>
+            </form>
+    </div>
     {% endif %}
 </div>
 

@@ -1,0 +1,37 @@
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.chart-container {
+    margin: 20px 0;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart {
+    width: 48%;
+}
+
+.description {
+    margin: 20px 0;
+    font-size: 16px;
+    color: #333333;
+}
+
+.trend-increase {
+    color: #d32f2f; /* สีแดง */
+    font-weight: bold;
+}
+
+.trend-decrease {
+    color: #388e3c; /* สีเขียว */
+    font-weight: bold;
+}
