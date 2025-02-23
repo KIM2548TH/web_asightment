@@ -30,19 +30,19 @@ This project provides a web application to compare the cost of living in various
     poetry install
     ```
 
-4. Initialize the database:
+4. Run the application:
+
+    ```bash
+    poetry run python web/main.py
+    ```
+
+5. Initialize the database:
 
     ```bash
     poetry run python web/init_database.py
     ```
 
     This script will create the necessary tables and populate initial data, including roles and provinces.
-
-5. Run the application:
-
-    ```bash
-    poetry run python web/main.py
-    ```
 
 6. Open your web browser and go to `http://127.0.0.1:5000`.
 
