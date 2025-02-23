@@ -10,6 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
+from sklearn.linear_model import LinearRegression
 
 module = Blueprint("templates", __name__)
 
@@ -368,6 +369,30 @@ def compare_graphs():
     }
     df2 = pd.DataFrame(data2)
 
+    # Calculate trends for each category
+    trends1 = {}
+    trends2 = {}
+    for column in df1.columns[1:]:
+        x1 = np.array(df1["Year"]).reshape(-1, 1)
+        y1 = np.array(df1[column]).reshape(-1, 1)
+        model1 = LinearRegression()
+        model1.fit(x1, y1)
+        next_year1 = df1["Year"].max() + 1
+        predicted_value1 = model1.predict([[next_year1]])[0][0]
+        latest_value1 = df1[df1["Year"] == df1["Year"].max()][column].values[0]
+        trend_percentage1 = ((predicted_value1 - latest_value1) / latest_value1) * 100
+        trends1[column] = trend_percentage1
+
+        x2 = np.array(df2["Year"]).reshape(-1, 1)
+        y2 = np.array(df2[column]).reshape(-1, 1)
+        model2 = LinearRegression()
+        model2.fit(x2, y2)
+        next_year2 = df2["Year"].max() + 1
+        predicted_value2 = model2.predict([[next_year2]])[0][0]
+        latest_value2 = df2[df2["Year"] == df2["Year"].max()][column].values[0]
+        trend_percentage2 = ((predicted_value2 - latest_value2) / latest_value2) * 100
+        trends2[column] = trend_percentage2
+
     # Create bar chart
     bar_fig = go.Figure()
     colors = ['#1f77b4', '#ff7f0e']
@@ -428,7 +453,7 @@ def compare_graphs():
     pie_chart1 = pie_fig1.to_html(full_html=False)
     pie_chart2 = pie_fig2.to_html(full_html=False)
 
-    return render_template("compare_graphs.html", bar_chart=bar_chart, line_chart=line_chart, pie_chart1=pie_chart1, pie_chart2=pie_chart2, province_name1=province_name1, province_name2=province_name2)
+    return render_template("compare_graphs.html", bar_chart=bar_chart, line_chart=line_chart, pie_chart1=pie_chart1, pie_chart2=pie_chart2, province_name1=province_name1, province_name2=province_name2, trends1=trends1, trends2=trends2)
 
 if __name__ == "__main__":
     app.run(debug=True)

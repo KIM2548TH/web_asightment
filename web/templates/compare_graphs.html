@@ -32,6 +32,22 @@
                 {{ pie_chart2|safe }}
             </div>
         </div>
+        <div class="cost-card d-flex align-items mb-3">
+            <p>Trends for each category in {{ province_name1 }}:</p>
+            <ul>
+                {% for category, trend in trends1.items() %}
+                <li>{{ category }}: <span class="{{ 'trend-increase' if trend > 0 else 'trend-decrease' }}">{{ 'increase' if trend > 0 else 'decrease' }} by {{ trend | round(2) }}%</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="cost-card d-flex align-items mb-3">
+            <p>Trends for each category in {{ province_name2 }}:</p>
+            <ul>
+                {% for category, trend in trends2.items() %}
+                <li>{{ category }}: <span class="{{ 'trend-increase' if trend > 0 else 'trend-decrease' }}">{{ 'increase' if trend > 0 else 'decrease' }} by {{ trend | round(2) }}%</span></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </body>
 </html>
