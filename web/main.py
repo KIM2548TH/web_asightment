@@ -103,6 +103,17 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html", form=form)
 
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        message = request.form["message"]
+        # คุณสามารถเพิ่มโค้ดเพื่อจัดการกับข้อมูลที่ได้รับ เช่น ส่งอีเมลหรือบันทึกลงฐานข้อมูล
+        flash("Your message has been sent successfully!", "success")
+        return redirect(url_for("contact"))
+    return render_template("contact.html")
+
 @app.route("/create_province", methods=["GET", "POST"])
 @login_required
 @acl.roles_required("admin")
