@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost of Living Graphs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='graphs_theme.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cost of Living Graphs for {{ province_name }}</h1>
+        <div class="cost-card d-flex align-items mb-3">
+            <h6>These graphs show the cost of living in {{ province_name }} over the years. The bar chart and line chart display the costs for different categories such as Food, Housing, Energy, Transportation, and Entertainment. The pie chart shows the distribution of costs for the latest year.</h6>
+            <h6>The total cost of living increased by <span class="trend-increase">{{ percentage_increase | round(2) }}%</span> in the latest year. The trend indicates that the cost of living is expected to <span class="{{ 'trend-increase' if trend_percentage > 0 else 'trend-decrease' }}">{{ 'increase' if trend_percentage > 0 else 'decrease' }} by {{ trend_percentage | round(2) }}%</span> next year.</h6>
+        </div>
+        
+        <div class="charts">
+            <div class="chart">
+                {{ bar_chart|safe }}
+            </div>
+            <div class="chart">
+                {{ line_chart|safe }}
+            </div>
+        </div>
+        <div class="chart-container">
+            {{ pie_chart|safe }}
+        </div>
+        <div  class="cost-card d-flex align-items mb-3">
+            <p>Trends for each category:</p>
+            <ul>
+                {% for category, trend in trends.items() %}
+                <li>{{ category }}: <span class="{{ 'trend-increase' if trend > 0 else 'trend-decrease' }}">{{ 'increase' if trend > 0 else 'decrease' }} by {{ trend | round(2) }}%</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

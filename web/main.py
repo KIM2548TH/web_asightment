@@ -6,6 +6,10 @@ import acl
 from flask import Blueprint
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 import base64
+import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
 
 module = Blueprint("templates", __name__)
 
@@ -168,9 +172,9 @@ def create_cost_of_living():
 
     return render_template("create_cost_of_living.html", form=form)
 
-@app.route("/compare_cost", methods=["GET", "POST"])
+@app.route("/view_compare_cost", methods=["GET", "POST"])
 @login_required
-def compare_cost():
+def view_compare_cost():
     provinces = models.Province.query.all()
     years = range(2020, 2024)
     cost1 = None
@@ -192,7 +196,7 @@ def compare_cost():
             cost1 = models.Cost_of_Living.query.filter_by(province_name=province1_name, year=year1).first()
             cost2 = models.Cost_of_Living.query.filter_by(province_name=province2_name, year=year2).first()
 
-    return render_template("compare_cost.html", provinces=provinces, years=years, cost1=cost1, cost2=cost2, province1=province1, province2=province2, year1=year1, year2=year2)
+    return render_template("view_compare_cost.html", provinces=provinces, years=years, cost1=cost1, cost2=cost2, province1=province1, province2=province2, year1=year1, year2=year2)
 
 @app.route("/view_province", methods=["GET", "POST"])
 @login_required
@@ -225,6 +229,106 @@ def view_province():
         return render_template("view_province.html", province=province, year=year, previous_year=previous_year, cost=cost, previous_cost=previous_cost, provinces=provinces, years=years)
 
     return render_template("view_province.html", provinces=provinces, years=years, cost=None)
+
+@app.route("/view_province/show_graphs", methods=["POST"])
+@login_required
+def show_graphs():
+    province_name = request.form.get("province_name")
+    if not province_name:
+        flash("Province name is required.", "danger")
+        return redirect(url_for("view_province"))
+
+    costs = models.Cost_of_Living.query.filter_by(province_name=province_name).all()
+    if not costs:
+        flash("No cost of living data available for the selected province.", "danger")
+        return redirect(url_for("view_province"))
+
+    # Prepare data for the graphs
+    data = {
+        "Year": [cost.year for cost in costs],
+        "Food": [cost.food for cost in costs],
+        "Housing": [cost.housing for cost in costs],
+        "Energy": [cost.energy for cost in costs],
+        "Transportation": [cost.transportation for cost in costs],
+        "Entertainment": [cost.entertainment for cost in costs],
+        "Total Cost": [cost.total_cost for cost in costs],
+    }
+    df = pd.DataFrame(data)
+
+    # Calculate percentage increase for the latest year
+    latest_year = df["Year"].max()
+    previous_year = latest_year - 1
+    latest_total_cost = df[df["Year"] == latest_year]["Total Cost"].values[0]
+    previous_total_cost = df[df["Year"] == previous_year]["Total Cost"].values[0]
+    percentage_increase = ((latest_total_cost - previous_total_cost) / previous_total_cost) * 100
+
+    # Predict the trend for the next year using linear regression
+    x = np.array(df["Year"]).reshape(-1, 1)
+    y = np.array(df["Total Cost"]).reshape(-1, 1)
+    from sklearn.linear_model import LinearRegression
+    model = LinearRegression()
+    model.fit(x, y)
+    next_year = latest_year + 1
+    predicted_cost = model.predict([[next_year]])[0][0]
+    trend_percentage = ((predicted_cost - latest_total_cost) / latest_total_cost) * 100
+
+    # Calculate trends for each category
+    trends = {}
+    for column in df.columns[1:]:
+        y = np.array(df[column]).reshape(-1, 1)
+        model.fit(x, y)
+        predicted_value = model.predict([[next_year]])[0][0]
+        latest_value = df[df["Year"] == latest_year][column].values[0]
+        trend_percentage = ((predicted_value - latest_value) / latest_value) * 100
+        trends[column] = trend_percentage
+
+    # Create bar chart
+    bar_fig = go.Figure()
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
+    for i, column in enumerate(df.columns[1:]):
+        bar_fig.add_trace(go.Bar(x=df["Year"], y=df[column], name=column, marker_color=colors[i % len(colors)]))
+
+    bar_fig.update_layout(
+        title=f"Cost of Living in {province_name} Over Years (Bar Chart)",
+        xaxis_title="Year",
+        yaxis_title="Cost",
+        barmode='group',
+        template='plotly_white',
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+
+    bar_chart = bar_fig.to_html(full_html=False)
+
+    # Create line chart
+    line_fig = go.Figure()
+    for i, column in enumerate(df.columns[1:]):
+        line_fig.add_trace(go.Scatter(x=df["Year"], y=df[column], mode='lines+markers', name=column, line=dict(color=colors[i % len(colors)])))
+
+    line_fig.update_layout(
+        title=f"Cost of Living in {province_name} Over Years (Line Chart)",
+        xaxis_title="Year",
+        yaxis_title="Cost",
+        template='plotly_white',
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+
+    line_chart = line_fig.to_html(full_html=False)
+
+    # Create pie chart for the latest year
+    pie_data = df[df["Year"] == latest_year].iloc[0][1:].to_dict()
+    pie_fig = px.pie(names=pie_data.keys(), values=pie_data.values(), title=f"Cost Distribution for {latest_year}", color_discrete_sequence=colors)
+    pie_fig.update_layout(
+        plot_bgcolor='#ffffff',
+        paper_bgcolor='#ffffff',
+        font=dict(color='#333333')
+    )
+    pie_chart = pie_fig.to_html(full_html=False)
+
+    return render_template("show_graphs.html", bar_chart=bar_chart, line_chart=line_chart, pie_chart=pie_chart, province_name=province_name, percentage_increase=percentage_increase, trends=trends, trend_percentage=trend_percentage)
 
 if __name__ == "__main__":
     app.run(debug=True)
